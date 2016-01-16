@@ -284,6 +284,13 @@
     
     const char *c = (const char *)sqlite3_column_text([_statement statement], columnIdx);
     
+    if (strlen(c) == 0) {
+        const unsigned char * tmpC = [self UTF8StringForColumnIndex:columnIdx];
+        if (tmpC) {
+            return [NSString stringWithUTF8String:(const char *)tmpC];
+        }
+    }
+    
     if (!c) {
         // null row.
         return nil;
